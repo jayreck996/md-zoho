@@ -1,5 +1,13 @@
 # ASSET Log - Zoho
 
+## ASSET:zoho 2026-07-16 -> Zoho Flow -- automated onboarding doc delivery and form submission
+
+- Trigger: new hire enrolled in Transputec hub (Zoho Learn event)
+- Action 1: Zoho Flow auto-sends essential onboarding docs to new hire via WorkDrive share link (native email attachments not supported in Zoho Learn)
+- Action 2: New hire submits required info via Zoho Form instead of replying by email -- form routes directly to HR's dashboard/view
+- Result: HR admin's only manual step is initial enrollment; document delivery and submission collection are automated, no email round-trips
+- Status: proposed -- not yet built in Zoho Flow
+
 ## ASSET:zoho 2026-06-30 -> Zoho Learn -- platform overview and access
 
 - **Login:** https://www.zoho.com/learn/login.html
@@ -56,3 +64,4 @@
 - **Action:** Send Zoho Mail with file attached
 - **Use when:** Actual file attachment is required rather than a link
 - **No programming language required**
+
