@@ -1,5 +1,13 @@
 # ISSUE Log - Zoho
 
+## ISSUE:zoho 2026-07-16 -> Zoho Learn -- new hire onboarding docs and forms sent manually via email
+
+**Limitation:** HR admin currently sends essential onboarding documents to new hires via email, and new hires must email completed forms back. No automated delivery or centralized submission point exists.
+
+**Impact:** Manual email round-trips slow down onboarding and leave no single source of truth for submitted new-hire forms/documents -- everything lives in inboxes.
+
+**Resolution:** See ASSET:zoho 2026-07-16 -> Zoho Flow -- automated onboarding doc delivery and form submission for the streamlined replacement (Flow + WorkDrive + Forms, no email required).
+
 ## ISSUE:zoho 2026-06-30 -> Zoho Learn -- user sees Nothing in your bucket yet (not in hub)
 
 **Symptom:** User logs in but sees no courses.
@@ -27,3 +35,4 @@
 **Confirmed:** Email templates, placeholder variables, automation triggers, and Zoho Flow workflows are all configured via UI only. No code required.
 
 **Exception:** Zoho Learn API exists for programmatic bulk actions (enrollments, completion data) but is optional and not needed for standard email/attachment workflows.
+
