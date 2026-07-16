@@ -1,5 +1,13 @@
 # ASSET Log - Zoho
 
+## ASSET:zoho 2026-07-16 -> Zoho Flow -- Test & debug mode does not prevent real side effects (correction)
+
+- Correction to ASSET:zoho 2026-07-16 -> Zoho Flow -- no unified sandbox, use Test & debug mode instead: that entry stated Test & debug "does not affect live data or send real emails" -- confirmed false by a live test run
+- Test run evidence: triggering the flow manually via Test & debug still executed the real Zoho Learn "Invite user to hub" action for real (`"result":"success"`, `"successUserCount":"1"`, real entry in `invitedUsers`) -- a genuine hub invite was sent, not a simulation
+- Test & debug only changes how the flow starts (manual run with sample/recent data instead of automatic on real form submissions) -- every action inside the flow still executes with real side effects every time, no dry-run exists
+- Safe testing practice: always use your own real email/data as the test "new hire" so any real side effect (e.g. an actual hub invite) only ever touches yourself, never a real employee
+- Secondary gotcha caught in the same test: a typo'd email domain (e.g. `trancputec.com` instead of `transputec.com`) still returned `"result":"success"` -- the API does not validate that the domain exists, so a successful result does not confirm actual delivery. Double-check submitted test data, don't just trust a success response
+
 ## ASSET:zoho 2026-07-16 -> Zoho Flow -- no unified sandbox, use Test & debug mode instead
 
 - No dedicated staging/sandbox environment exists across Learn, Forms, and Flow (unlike Zoho CRM, which has a separate Sandbox feature on Enterprise+ plans, or Zoho Sign's sandbox added April 2026)
@@ -80,5 +88,6 @@
 - **Action:** Send Zoho Mail with file attached
 - **Use when:** Actual file attachment is required rather than a link
 - **No programming language required**
+
 
 
