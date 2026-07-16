@@ -1,5 +1,21 @@
 # ASSET Log - Zoho
 
+## ASSET:zoho 2026-07-16 -> Zoho Flow -- no unified sandbox, use Test & debug mode instead
+
+- No dedicated staging/sandbox environment exists across Learn, Forms, and Flow (unlike Zoho CRM, which has a separate Sandbox feature on Enterprise+ plans, or Zoho Sign's sandbox added April 2026)
+- Zoho Flow has a built-in Test & debug mode: run the flow against sample or recent test data, inspect each step's input/output, and re-run before activating -- does not affect live data or send real emails
+- Zoho Forms: keep the form unpublished/inactive while testing instead of relying on a separate environment
+- Applies to the onboarding automation in ASSET:zoho 2026-07-16 -> Zoho Flow -- corrected trigger design for onboarding automation -- validate via Test & debug before flipping the flow live
+
+## ASSET:zoho 2026-07-16 -> Zoho Flow -- corrected trigger design for onboarding automation
+
+- Correction to ASSET:zoho 2026-07-16 -> Zoho Flow -- automated onboarding doc delivery and form submission: Zoho Flow's Zoho Learn integration only exposes actions (invite user, add member, create course), not a trigger for new-learner-enrolled -- Flow cannot watch Zoho Learn and auto-fire on enrollment
+- Trigger instead: HR admin manually starts the flow (short "New Hire Setup" trigger with name/email) -- admin-initiated, not event-detected
+- Flow actions: (1) invite new hire to Zoho Learn hub via Flow's Zoho Learn action, (2) send new hire a single Zoho Form link
+- Doc delivery folded into the form itself: WorkDrive doc link(s) added as a text/instructions field inside the Zoho Form (no native "download field" in Zoho Forms, but a text field with a link works) -- new hire reads/downloads docs and submits the same form, no separate email leg
+- Result: one admin action, one link sent to new hire, no attachments, no separate WorkDrive email step
+- Status: proposed -- not yet built in Zoho Flow
+
 ## ASSET:zoho 2026-07-16 -> Zoho Flow -- automated onboarding doc delivery and form submission
 
 - Trigger: new hire enrolled in Transputec hub (Zoho Learn event)
@@ -64,4 +80,5 @@
 - **Action:** Send Zoho Mail with file attached
 - **Use when:** Actual file attachment is required rather than a link
 - **No programming language required**
+
 
