@@ -1,5 +1,14 @@
 # ASSET Log - Zoho
 
+## ASSET:zoho 2026-07-20 -> Zoho Flow -- "New Hire Setup" flow built and tested (Form trigger + invite with embedded links)
+
+- Built as: Trigger = Zoho Forms "Form entry submitted" on a "New Hire Setup" form (HR fills in new hire's First name/Last name/Email) -- used instead of a bare manual trigger, since Forms gives structured captured data and a record of submissions
+- Action = Zoho Learn "Invite user to hub" (Transputec Limited hub), mapped from trigger.Email/Name_First/Name_Last
+- Onboarding form link + WorkDrive docs link embedded directly in the invite action's "Mail content" field, rather than a separate Send Email step -- avoids needing a separate Zoho Mail app connection (see ISSUE:zoho 2026-07-20 -> Zoho Mail -- no Zoho Mail connection available for Flow)
+- Result: one HR form submission -> one automated email to new hire containing hub invite plus onboarding links, no separate email leg needed
+- Tested via Test & debug using own real email as the new hire -- confirmed real invite and custom mail content email were received
+- Status: built and tested working
+
 ## ASSET:zoho 2026-07-16 -> Zoho Flow -- Test & debug mode does not prevent real side effects (correction)
 
 - Correction to ASSET:zoho 2026-07-16 -> Zoho Flow -- no unified sandbox, use Test & debug mode instead: that entry stated Test & debug "does not affect live data or send real emails" -- confirmed false by a live test run
@@ -88,6 +97,3 @@
 - **Action:** Send Zoho Mail with file attached
 - **Use when:** Actual file attachment is required rather than a link
 - **No programming language required**
-
-
-
