@@ -1,5 +1,13 @@
 # ISSUE Log - Zoho
 
+## ISSUE:zoho 2026-07-20 -> Zoho Mail -- no Zoho Mail connection available for Flow (Invalid Email ID / null AccountId)
+
+**Symptom:** Creating a new Zoho Mail connection in Zoho Flow (for a Send Email action) fails with "Invalid Email ID, null AccountId cannot be obtained for the given Email ID".
+
+**Cause:** Zoho Mail is not provisioned as a mailbox for the authorizing account/org (confirmed: mail.zoho.eu/createMailAccount returns page not found for jay.reck@transputec.com) -- org likely uses a different email service, so the Zoho Mail app has no account to attach to.
+
+**Resolution:** Skip the separate Zoho Mail action. Use the "Mail content" field available directly on other Zoho actions that already send email natively (e.g. Zoho Learn's "Invite user to hub" action) to include any additional links/text, instead of adding a standalone Send Email step.
+
 ## ISSUE:zoho 2026-07-16 -> Zoho Learn -- new hire onboarding docs and forms sent manually via email
 
 **Limitation:** HR admin currently sends essential onboarding documents to new hires via email, and new hires must email completed forms back. No automated delivery or centralized submission point exists.
@@ -35,4 +43,3 @@
 **Confirmed:** Email templates, placeholder variables, automation triggers, and Zoho Flow workflows are all configured via UI only. No code required.
 
 **Exception:** Zoho Learn API exists for programmatic bulk actions (enrollments, completion data) but is optional and not needed for standard email/attachment workflows.
-
