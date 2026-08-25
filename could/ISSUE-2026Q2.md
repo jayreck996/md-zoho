@@ -38,6 +38,8 @@
 
 **If true attachment required:** Use Zoho Flow (no-code drag-and-drop) to trigger an email with an attached file on a Zoho Learn event (enrollment, completion, etc.).
 
+**Superseded 2026-08-26:** Onboarding moved to Zoho People, whose onboarding email alerts support native file attachments directly (Desktop/Cloud/Select Templates). See ASSET:zoho 2026-08-26 -> Zoho People -- email template location and native attachment support (2026Q3 log). This workaround no longer applies to the current setup.
+
 ## ISSUE:zoho 2026-06-23 -> Zoho Learn -- no programming language required for email and LMS setup
 
 **Confirmed:** Email templates, placeholder variables, automation triggers, and Zoho Flow workflows are all configured via UI only. No code required.
