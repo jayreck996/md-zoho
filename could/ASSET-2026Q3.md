@@ -26,3 +26,17 @@
 - Attached `Onboarding-Forms.zip` (Data Protection Act Form, Personnel Questionnaire, Reference Request Consent Form) per the single-attachment-slot limitation above.
 - Build note: the rich-text editor lives in an iframe reached only via "Edit Email Template" (the inline body preview in the alert modal is read-only and silently no-ops on typed input) -- edits must go through that expanded editor. Large single-paste blocks of the full merged body dropped words/characters in several places (particularly around `@` and long hyphenated strings) and silently ate paragraph breaks around auto-linked URLs; verified and fixed by reading `iframe.contentDocument.body.innerText` directly rather than trusting the visual render, which itself does not always match live state either.
 - Status: built, verified (subject + full body text + all 5 links + attachment), and saved live -- "Email alert updated successfully" confirmed 2026-08-26.
+- **Correction: the "verified and saved live" status above was premature.** A full page reload after that save showed the body silently truncated server-side, cutting off right where a 😊 emoji had been typed -- everything after it (checklist, device setup, links, closing) was gone from the live template despite the success toast. See ISSUE:zoho 2026-08-26 -> Zoho People -- email alert body silently truncates on save (emoji + large-paste corruption). Rebuilt without the emoji, re-verified via reload + DOM read (not the on-screen preview) -- confirmed complete and correct as of the final check.
+
+## ASSET:zoho 2026-08-26 -> Zoho People -- no workflows attached to Onboarding module (confirmed before test trigger)
+
+- Before running a real test invite, checked Settings > Onboarding > Automation > Workflows > "Manage Workflows" (Form: All) -- list is completely empty
+- Confirms triggering a candidate's onboarding (the "Initiate associated workflows?" prompt in the Invite Candidate wizard, step 3) has nothing to actually initiate -- no hidden automation cascade tied to candidate creation/trigger in this org
+- Relevant when judging blast radius of any test candidate/trigger: only the Welcome Email itself fires, nothing else in Zoho People or connected systems
+
+## ASSET:zoho 2026-08-26 -> Zoho People -- test candidate created for live send verification (paused before trigger)
+
+- Attempted test candidate with jayreck996@gmail.com via Track Onboarding > Invite Candidate -- blocked: "The user is already part of current organization" (that address is already a known user/employee record in this Zoho People org)
+- Created test candidate instead with jay.reck@icloud.com: CND216, "Test Onboarding", Location New Zealand, Title Support Manager (auto-populated defaults, not set intentionally) -- status "Not Triggered"
+- Reached step 3 of the Invite Candidate wizard (Trigger Onboarding: Yes, Initiate associated workflows: Yes) -- **paused before clicking Finish** at user's request, to trigger later same day
+- Status: candidate record exists, onboarding not yet triggered, Welcome Email not yet sent
