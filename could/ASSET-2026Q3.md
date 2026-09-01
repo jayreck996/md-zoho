@@ -39,7 +39,10 @@
 - Attempted test candidate with jayreck996@gmail.com via Track Onboarding > Invite Candidate -- blocked: "The user is already part of current organization" (that address is already a known user/employee record in this Zoho People org)
 - Created test candidate instead with jay.reck@icloud.com: CND216, "Test Onboarding", Location New Zealand, Title Support Manager (auto-populated defaults, not set intentionally) -- status "Not Triggered"
 - Reached step 3 of the Invite Candidate wizard (Trigger Onboarding: Yes, Initiate associated workflows: Yes) -- **paused before clicking Finish** at user's request, to trigger later same day
-- Status: candidate record exists, onboarding not yet triggered, Welcome Email not yet sent
+- Paused pending HR admin sign-off, since this is the live production template (Zoho People has no separate sandbox/test copy -- triggering it fires the exact same template real candidates receive)
+- Sign-off received 2026-09-02. Test candidate CND216 (jay.reck@icloud.com) left untriggered; instead created a second test candidate CND219 (Jay Reck, ync5389@gmail.com) and triggered onboarding for real
+- **Confirmed working end-to-end:** email received at ync5389@gmail.com, user confirmed "it works" -- subject, body, links, and zip attachment all functioning as built in the live template
+- Status: production template verified via real send. CND216 and CND219 are test records still sitting in the live candidate list (Not Triggered / Triggered) -- consider deleting them once no longer needed to keep the real candidate list clean
 
 ## ASSET:zoho 2026-08-27 -> Tooling -- claude-in-chrome browser extension/MCP (used for this Zoho work)
 
