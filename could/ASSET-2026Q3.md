@@ -52,3 +52,12 @@
 - Session/permission model: Claude opens and controls tabs inside a dedicated tab group scoped to that session -- not arbitrary access to all open browser tabs/windows. Claude does not see or handle login credentials -- the user logs in manually in that tab; Claude only interacts with the page afterward.
 - Tools available (MCP), as used this session: `tabs_context_mcp` (list/create the session's tab group), `navigate`, `computer` (mouse/keyboard/screenshot), `read_page` / `find` (accessibility tree), `javascript_tool` (run JS in page context -- used repeatedly here to verify what was actually saved server-side vs. what the on-screen preview showed), `file_upload` (attach local files to a file input, bypassing the native OS file picker), `resize_window`, plus `read_console_messages` / `read_network_requests` / `gif_creator` (not used this session)
 - Install/setup: install the Claude Chrome extension from the Chrome Web Store, sign in, then grant it permission for the sites Claude should access. Exact install flow and availability can change over time -- check Anthropic's current documentation rather than relying solely on this note when setting it up fresh.
+
+## ASSET:zoho 2026-09-02 -> Zoho People -- original "Welcome Email to Candidate" content preserved (no native version history)
+
+- The Edit Email Alert editor has no revision history / "restore previous version" feature -- no undo back to a prior save once a template has been edited and saved
+- Preserved here as the manual rollback point, since the rebuilt template (see ASSET:zoho 2026-08-26 -> Zoho People -- Welcome Email to Candidate template rebuilt) replaced this entirely and is now confirmed live in production:
+  - **Original Subject:** "Welcome Candidate"
+  - **Original Body:** "Hi ${First_Name},\n\nGreetings from ${companyName}!\n\nClick here to set up your password to login to our portal.\n\nOnce you have set up your account, you can complete onboarding process.\n\nTo login to the portal again, please use this link.\n\nRegards,\n${Person performing this action}" ("here" links to `${CandidateInvitationURL}`, "link" links to `${CandidateLoginURL}`)
+  - No attachments, no document checklist, no device setup section on the original version
+- If reverting is ever needed, this content plus the two live merge-token links above is everything required to manually rebuild it
