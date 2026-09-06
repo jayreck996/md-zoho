@@ -61,3 +61,17 @@
   - **Original Body:** "Hi ${First_Name},\n\nGreetings from ${companyName}!\n\nClick here to set up your password to login to our portal.\n\nOnce you have set up your account, you can complete onboarding process.\n\nTo login to the portal again, please use this link.\n\nRegards,\n${Person performing this action}" ("here" links to `${CandidateInvitationURL}`, "link" links to `${CandidateLoginURL}`)
   - No attachments, no document checklist, no device setup section on the original version
 - If reverting is ever needed, this content plus the two live merge-token links above is everything required to manually rebuild it
+
+## ASSET:zoho 2026-09-07 -> Zoho People -- next milestone: auto-notify IT/service-desk on device name + screenshot submission
+
+- Goal: when a new hire submits their computer/device name and a screenshot, automatically email IT/service-desk instead of relying on someone noticing it manually
+- Checked the **Candidate** form (Settings > Onboarding > Extend Service > Forms > Candidate) first -- it has no device-name or screenshot field. The onboarding checklist email tells candidates to submit "Speed Test Screenshot" and "Machine/Device Name" "via the portal," but no such fields exist on that form -- those checklist lines were text only, with nothing behind them on the Candidate form.
+- Checked the separate **Onboarding Staff** form instead (same Extend Service > Forms list, form id 5489000001985025, label `Onboarding_Overseas_Staff`) -- it already has both fields needed, plus everything else on the checklist:
+  - **Machine/Device Name** (If applicable write Company Issued Laptop) -- required single-line text
+  - **Upload Screenshot of Machine/Device Name** -- required Desktop/Cloud upload
+  - Also present: Home Address, Personal Email Address, Job Role Offered, Reference 1/2 Email, Police Clearance Certificate (PCC -- remote workers only), Proof of Identity, Screenshot from speedtest.net, CV, 2nd Utility Bill, Data Protection Act Form, Referencing Consent Form, P45/HMRC Checklist (UK staff only), Next of Kin Name & Contact Number
+- Conclusion: **no new form fields need to be built** -- the milestone is purely an automation. Build a Workflow (Settings > Onboarding > Automation > Workflows -- confirmed empty in the earlier ASSET entry above) that fires an email to IT/service-desk when this Onboarding Staff record has Machine/Device Name + the device screenshot populated.
+- Open questions before building, asked of user:
+  1. Which email address(es) should receive the notification (IT/service-desk distro vs. a specific person)?
+  2. Trigger the moment either field is filled, or only once both are filled together (avoid a half-complete notification)?
+- Status: investigation done, automation not yet built -- pending answers above
