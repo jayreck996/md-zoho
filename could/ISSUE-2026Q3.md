@@ -25,3 +25,15 @@
 **Symptom:** Track Onboarding > Invite Candidate rejects an email with "The user is already part of current organization" if that address is already associated with an existing employee/user record in the org.
 
 **Resolution:** use a genuinely external test address instead (not a company email or one already tied to a user account) when test-inviting a candidate to verify onboarding emails.
+
+## ISSUE:zoho 2026-09-07 -> Zoho People/IT -- new device-notification workflow subject may not match existing ITSM ticket naming convention
+
+**Finding:** this process already exists manually today, run outside Zoho People entirely. A real ITSM ticket (Servicely, `REQ0041028`, closed 2026-09-02) shows HR raises a ticket to service desk per new hire for Agent1 install + device name, titled with the convention:
+
+`INT | Agent 1 Installation & Device Name - <Candidate Name> <date>`
+
+(example: "INT | Agent 1 Installation & Device Name - Ara Yamit 12.10.2026" -- Ara Yamit is a real candidate, CND217, already in the live Track Onboarding list)
+
+**Risk:** the new Workflow email alert built in ASSET:zoho 2026-09-07 -> Zoho People -- next milestone: auto-notify IT/service-desk on device name + screenshot submission currently uses a generic subject ("New Device Details Submitted for IT Setup"), not this convention. If Servicely auto-creates/categorizes/routes tickets from inbound email based on subject pattern (the "INT |" prefix in particular), a mismatched subject could land in the wrong queue or fail to auto-categorize -- can't verify this from inside Zoho People alone.
+
+**Resolution (pending):** either update the workflow's email subject to match the "INT | Agent 1 Installation & Device Name - &lt;Name&gt; &lt;date&gt;" convention, or confirm directly with IT/service-desk whether subject-line matching actually matters for their ticket routing before relying on it.
