@@ -74,4 +74,10 @@
 - Open questions before building, asked of user:
   1. Which email address(es) should receive the notification (IT/service-desk distro vs. a specific person)?
   2. Trigger the moment either field is filled, or only once both are filled together (avoid a half-complete notification)?
-- Status: investigation done, automation not yet built -- pending answers above
+- Answers: both fields required together; recipient servicedesk@transputec.com
+- **Built:** new Workflow "Notify IT - Device Name and Screenshot Submitted" on the Onboarding Staff form (Settings > Onboarding > Automation > Workflows):
+  - Trigger: Existing record is edited -> Execute only once (fires the first time the criteria matches, not on every subsequent edit)
+  - Criteria: `(1 AND 2)` -- Machine/Device Name Is Not Empty AND Upload Screenshot of Machine/Device Name Is Not Empty
+  - Action: Email Alert "Notify IT - Device Details Submitted" to servicedesk@transputec.com, subject "New Device Details Submitted for IT Setup", body includes candidate name (via `${CANDIDATE_ID.First_Name}` / `.Last_Name}` -- lookup-field dot-notation, found under the separate "Candidate (Candidate)" category in the merge-field picker, since the plain "Candidate" field under Onboarding Staff only inserts the raw `${CANDIDATE_ID}` record ID), Job Role Offered, and the device name value, plus a note that the screenshot itself is attached to the Onboarding Staff record (not re-attached to this notification email)
+- Left the pre-existing, unrelated "Onboarding Overseas Staff" workflow draft (Create trigger, no criteria, no actions) untouched per user's choice to build a new, separate workflow rather than repurpose it
+- Status: built and saved live. Not yet tested end-to-end with a real record edit -- next step is verifying delivery
