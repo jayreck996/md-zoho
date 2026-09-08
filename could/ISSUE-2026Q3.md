@@ -37,3 +37,13 @@
 **Risk:** the new Workflow email alert built in ASSET:zoho 2026-09-07 -> Zoho People -- next milestone: auto-notify IT/service-desk on device name + screenshot submission currently uses a generic subject ("New Device Details Submitted for IT Setup"), not this convention. If Servicely auto-creates/categorizes/routes tickets from inbound email based on subject pattern (the "INT |" prefix in particular), a mismatched subject could land in the wrong queue or fail to auto-categorize -- can't verify this from inside Zoho People alone.
 
 **Resolution (pending):** either update the workflow's email subject to match the "INT | Agent 1 Installation & Device Name - &lt;Name&gt; &lt;date&gt;" convention, or confirm directly with IT/service-desk whether subject-line matching actually matters for their ticket routing before relying on it.
+
+## ISSUE:zoho 2026-09-08 -> Zoho People -- Custom Function "Execute Script" test button fails with "Invalid Domain"
+
+**Symptom:** clicking "Execute Script" (or "Save & Execute Script") on the `notifyIT_AttachScreenshot` Custom Function fails immediately with `Execution exception : Error due to - 'Invalid Domain'`.
+
+**Isolation performed:** added temporary debug `return` statements to bisect which line throws. The error fires even on the very first built-in integration task in the script -- a bare `zoho.people.getRecords("Onboarding_Overseas_Staff",1,10)` call with no search criteria map at all -- before the code ever reaches the `invokeurl` file-download block or the OAuth connection. This rules out the `peoplefileaccess` connection, the search criteria map, and the file-download URL as the cause.
+
+**Likely cause (not yet confirmed with Zoho support/docs):** a known-style limitation where the in-editor "Execute Script" test button runs the script in a sandbox context that cannot resolve the calling Zoho People domain (people.zoho.eu here) for built-in `zoho.people.*` integration tasks, even though the same call works when the function actually runs from a live trigger (Workflow, custom button, etc.) with real request context.
+
+**Resolution (pending):** cannot use the test button to validate this function. Must instead test by wiring it into a real trigger and observing the live result (e.g., temporarily re-enabling the disabled "Notify IT" workflow, or attaching the function to a Custom Button and clicking it from an actual Onboarding Staff record) -- see ASSET:zoho 2026-09-08 -> Zoho People -- Custom Function built to attach the real screenshot file to the IT notification (IT has no Zoho access). Per [[feedback-zoho-confirm-before-live-actions]], this requires checking with the user before triggering, even against the test candidate.
