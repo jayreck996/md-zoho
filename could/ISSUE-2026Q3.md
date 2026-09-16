@@ -38,6 +38,8 @@
 
 **Resolution (pending):** either update the workflow's email subject to match the "INT | Agent 1 Installation & Device Name - &lt;Name&gt; &lt;date&gt;" convention, or confirm directly with IT/service-desk whether subject-line matching actually matters for their ticket routing before relying on it.
 
+**Status 2026-09-16:** still unresolved -- the Workflow was enabled live to the real `servicedesk@transputec.com` anyway (see ASSET:zoho 2026-09-16 -> Zoho People -- notify-IT milestone shipped: scope simplified to device-name-only, no attachment needed), per explicit user decision to proceed without waiting on this. Worth confirming with IT/service-desk after the fact whether the generic subject line is auto-routing/categorizing correctly, since real candidate submissions will now generate real notifications with the unconfirmed subject format.
+
 ## ISSUE:zoho 2026-09-08 -> Zoho People -- Custom Function "Execute Script" test button fails with "Invalid Domain"
 
 **Symptom:** clicking "Execute Script" (or "Save & Execute Script") on the `notifyIT_AttachScreenshot` Custom Function fails immediately with `Execution exception : Error due to - 'Invalid Domain'`.
