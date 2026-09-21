@@ -121,3 +121,113 @@
   - Status toggled on (blue) and saved successfully.
 - **Not yet resolved / left open:** the workflow name "Notify IT - Device Name and **Screenshot** Submitted" is now slightly stale wording given the criteria no longer checks for the screenshot -- a cosmetic rename was not requested/made. The ITSM subject-line naming-convention question (see ISSUE:zoho 2026-09-07 -> Zoho People/IT -- new device-notification workflow subject may not match existing ITSM ticket naming convention) also remains unresolved and was not blocking this go-live per user's explicit decision to proceed with the real recipient anyway.
 - The `notifyIT_AttachScreenshot` Custom Function and its "TEST Notify IT (Attach Screenshot)" Custom Button are no longer part of the live path (the enabled Workflow uses the plain Email Alert instead) -- both can be left as-is for potential future use or removed as cleanup; not actioned either way this session.
+
+## ASSET:zoho 2026-09-21 -> Zoho People -- next milestone: auto-save all candidate files to SharePoint on form submission
+
+- **Goal:** when a candidate submits the Onboarding Staff form, every uploaded file (CV, Proof of ID, Police Clearance, Utility Bill, Speed Test screenshot, Device screenshot, Data Protection Form, Referencing Consent, P45/HMRC Checklist) is automatically pushed into a dedicated per-candidate folder in SharePoint -- no manual retrieval from Zoho People needed.
+- **Approach:** a new Deluge Custom Function `saveFilesToSharePoint` triggered by a new Workflow on the Onboarding Staff form (trigger: New record is added, execute only once). Completely separate from `notifyIT_AttachScreenshot` -- same download mechanics (`_downloadUrl` + `peoplefileaccess` connection + `invokeurl`), different destination and scope.
+- **SharePoint folder structure:** `/HR/Onboarding/{CandidateID} - {First_Name} {Last_Name}/` (e.g. `/HR/Onboarding/CND219 - Jay Reck/`), with each file saved under its original filename.
+- **Pre-conditions before building (must be done first):**
+  1. **Azure AD App Registration** -- an OAuth app is required in the M365 tenant to call Microsoft Graph API. Register at Azure Portal > Azure Active Directory > App Registrations > New Registration (name: `ZohoPeople-SharePoint`). Redirect URI: Zoho's OAuth callback as shown in the Connections setup screen. API Permission: `Sites.ReadWrite.All` (or `Files.ReadWrite.All`). Create a Client Secret; note Client ID + Secret + Tenant ID.
+  2. **Zoho Connection `sharepointfileaccess`** -- Settings > Developer Space > Connections > New Connection, Custom OAuth / Microsoft. Authorization URL: `https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize`; Token URL: `https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token`; Scope: `https://graph.microsoft.com/Files.ReadWrite.All offline_access`. Enter Client ID + Secret; authorize and confirm Connected status.
+  3. **SharePoint Site ID and Drive ID** -- two fixed constants needed in the function. Find them via Graph API (can test via a browser or Postman before wiring into Deluge): `GET https://graph.microsoft.com/v1.0/sites/{hostname}:/sites/{siteName}` for `siteId`; `GET https://graph.microsoft.com/v1.0/sites/{siteId}/drives` for `driveId`. Hardcode both into the function. Confirm `/HR/Onboarding/` root folder exists in SharePoint (or the function will create candidate subfolders directly under wherever you set the root path).
+  4. **Discover internal field names** -- the `_downloadUrl` companion field names for all file-upload fields on the Onboarding Staff form are not fully confirmed yet (only `upload_screenshot_of_machine_device_name` is known). Use a temporary debug `return rec.toString()` in `saveFilesToSharePoint` (triggered via a Custom Button against CND219) to dump the full record map and identify all keys ending in `_downloadUrl`. Expected names based on form labels: `proof_of_identity`, `cv`, `2nd_utility_bill`, `police_clearance_certificate`, `screenshot_from_speedtest_net`, `data_protection_act_form`, `referencing_consent_form`, `p45_hmrc_checklist` -- verify and correct each before the real build.
+- **Custom Function `saveFilesToSharePoint` -- complete Deluge script (placeholder constants must be filled in after pre-conditions above):**
+
+  ```deluge
+  // Replace these two constants after Step 3 above
+  siteId = "YOUR_SITE_ID";
+  driveId = "YOUR_DRIVE_ID";
+
+  // 1. Look up the Onboarding Staff record
+  searchMap = Map();
+  searchMap.put("searchField", "CANDIDATE_ID");
+  searchMap.put("searchValue", candidateId);
+  records = zoho.people.getRecords("Onboarding_Overseas_Staff", 1, 1, searchMap);
+  rec = records.get(0);
+
+  // Validate: real record vs. error payload (same gotcha as notifyIT -- API returns error as record 0)
+  if (rec.containsKey("code"))
+  {
+      return "error: getRecords returned " + rec.get("message");
+  }
+
+  // 2. Build folder name and path
+  firstName = rec.get("CANDIDATE_ID.First_Name");
+  lastName  = rec.get("CANDIDATE_ID.Last_Name");
+  folderName = candidateId + " - " + firstName + " " + lastName;
+  folderPath = "HR/Onboarding/" + folderName;
+
+  // 3. Create candidate folder in SharePoint (conflictBehavior: rename = safe on re-runs)
+  folderBody = Map();
+  folderBody.put("name", folderName);
+  folderBody.put("folder", Map());
+  folderBody.put("@microsoft.graph.conflictBehavior", "rename");
+  folderResp = invokeurl
+  [
+      url: "https://graph.microsoft.com/v1.0/sites/" + siteId + "/drives/" + driveId + "/root:/HR/Onboarding:/children"
+      type: POST
+      parameters: folderBody.toJSONString()
+      headers: {"Content-Type": "application/json"}
+      connection: "sharepointfileaccess"
+  ];
+
+  // 4. File fields: internal Zoho name -> fallback filename if getFileName() returns null
+  //    Verify each internal name against rec.toString() output before finalising (see pre-conditions Step 4)
+  fileFields = list();
+  fileFields.add({"field": "proof_of_identity",                       "fallback": "Proof_of_Identity"});
+  fileFields.add({"field": "cv",                                       "fallback": "CV"});
+  fileFields.add({"field": "2nd_utility_bill",                         "fallback": "Utility_Bill"});
+  fileFields.add({"field": "police_clearance_certificate",             "fallback": "Police_Clearance"});
+  fileFields.add({"field": "upload_screenshot_of_machine_device_name", "fallback": "Device_Screenshot"});
+  fileFields.add({"field": "screenshot_from_speedtest_net",            "fallback": "Speedtest_Screenshot"});
+  fileFields.add({"field": "data_protection_act_form",                 "fallback": "Data_Protection_Form"});
+  fileFields.add({"field": "referencing_consent_form",                 "fallback": "Referencing_Consent"});
+  fileFields.add({"field": "p45_hmrc_checklist",                       "fallback": "P45_HMRC_Checklist"});
+
+  // 5. Download each file from Zoho People and upload to SharePoint
+  for each entry in fileFields
+  {
+      fieldName    = entry.get("field");
+      fallbackName = entry.get("fallback");
+      downloadUrl  = rec.get(fieldName + "_downloadUrl");
+
+      if (downloadUrl != null && downloadUrl != "")
+      {
+          // Download from Zoho People (same pattern as notifyIT_AttachScreenshot)
+          fileData = invokeurl
+          [
+              url: downloadUrl
+              type: GET
+              connection: "peoplefileaccess"
+          ];
+
+          // Prefer the file's own stored name; fall back to the label above
+          fileName = fileData.getFileName();
+          if (fileName == null || fileName == "")
+          {
+              fileName = fallbackName;
+          }
+
+          // Upload to SharePoint via Graph API simple upload
+          uploadResp = invokeurl
+          [
+              url: "https://graph.microsoft.com/v1.0/sites/" + siteId + "/drives/" + driveId + "/root:/" + folderPath + "/" + fileName + ":/content"
+              type: PUT
+              parameters: fileData
+              connection: "sharepointfileaccess"
+          ];
+      }
+  }
+
+  return "success";
+  ```
+
+- **Workflow `Save Candidate Files to SharePoint`** -- Settings > Onboarding > Automation > Workflows, Onboarding Staff form. Trigger: New record is added; Execute: Only once; Criteria: none; Action: Custom Function `saveFilesToSharePoint`, parameter `candidateId` mapped to the Candidate (Onboarding Staff) lookup category (same mapping pattern used for `notifyIT_AttachScreenshot`).
+- **Testing sequence:**
+  1. Connection smoke-test: temporary `return invokeurl[url:"https://graph.microsoft.com/v1.0/me" type:GET connection:"sharepointfileaccess"];` in the function to confirm the OAuth token flow resolves.
+  2. Field name discovery: temporary `return rec.toString();` after `getRecords()`, triggered via "TEST Notify IT (Attach Screenshot)" Custom Button (or a new test button) against CND219 -- read back via Logs > Execution details.
+  3. Dry run: add a temporary "TEST Save to SharePoint" Custom Button and trigger against CND219 -- confirm folder `/HR/Onboarding/CND219 - Jay Reck/` created and files appear in SharePoint.
+  4. Real workflow test: create a fresh test candidate, submit the Onboarding Staff form, confirm all files land in SharePoint.
+- **Known open question:** ITSM subject-line naming convention (ISSUE:zoho 2026-09-07) is still unresolved and unrelated to this feature.
+- Status: designed, not yet built -- awaiting pre-conditions (Azure AD app + Zoho Connection + SharePoint IDs + field name confirmation) before creating the Custom Function in Zoho People.
