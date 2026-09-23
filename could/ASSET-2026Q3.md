@@ -245,4 +245,11 @@
   2. Create `sharepointfileaccess` Zoho OAuth connection -- Settings > Developer Space > Connections > New Connection > Custom OAuth / Microsoft (clientId + secret + tenantId from Step 1).
   3. Confirm SharePoint Site ID and Drive ID (one-off Graph API lookup) -- hardcode into function constants.
   4. Open `saveFilesToSharePoint` for editing and paste the full Deluge script (see plan above).
+
+## ASSET:zoho 2026-09-23 -> Azure AD app registration -- request sent to 3rd line support
+
+- **Request sent 2026-09-23** to 3rd line support / M365 admin asking them to register an Azure AD app (`ZohoPeople-SharePoint`) with `Files.ReadWrite.All` delegated permission, redirect URI `https://deluge.zoho.eu/delugeauth/callback`, and to share back Tenant ID + Client ID + Client Secret.
+- **Full request detail:** see REQUEST:zoho 2026-09-23 -> Azure AD -- App registration required for Zoho People SharePoint integration (REQUEST-2026Q3.md).
+- **Unblocks:** `sharepointfileaccess` Zoho connection creation, which in turn unblocks saving the full Deluge script to `saveFilesToSharePoint` (ID: `5489000006525005`) and enabling the `Save Candidate Files to SharePoint` workflow.
+- **Status:** pending -- awaiting credentials from 3rd line support.
   5. Create Workflow `Save Candidate Files to SharePoint` -- Trigger: New record added on Onboarding Staff; Execute only once; Action: `saveFilesToSharePoint` with candidateId → Candidate.
