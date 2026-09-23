@@ -231,3 +231,18 @@
   4. Real workflow test: create a fresh test candidate, submit the Onboarding Staff form, confirm all files land in SharePoint.
 - **Known open question:** ITSM subject-line naming convention (ISSUE:zoho 2026-09-07) is still unresolved and unrelated to this feature.
 - Status: designed, not yet built -- awaiting pre-conditions (Azure AD app + Zoho Connection + SharePoint IDs + field name confirmation) before creating the Custom Function in Zoho People.
+
+## ASSET:zoho 2026-09-23 -> Zoho People -- saveFilesToSharePoint Custom Function created (stub, pending connection)
+
+- **Custom Function created:** `saveFilesToSharePoint` on the Onboarding Staff form -- Settings > Onboarding > Automation > Actions > Custom Functions. Function ID: `5489000006525005`.
+- **Signature:** `String saveFilesToSharePoint(string candidateId)` -- `candidateId` parameter mapped to the Candidate (Onboarding Staff) lookup field (internal: `CANDIDATE_ID`), same mapping as `notifyIT_AttachScreenshot`.
+- **Current script:** stub `return "success";` only -- the full script (see `ASSET:zoho 2026-09-21`) cannot be saved yet because Zoho People validates OAuth connection references at Custom Function save time. Since `sharepointfileaccess` does not exist yet, every save attempt with the real script returns `{"failure":"Connection 'sharepointfileaccess' does not exist"}` and the dialog stays open.
+- **Script fix during build:** the original planned script used `.toJSONString()` on a Map to build the folder creation POST body. Zoho People's Deluge environment does not support `.toJSONString()` -- the correct approach is to pass the Map directly as `parameters:` in the `invokeurl` block (Deluge serialises Map to JSON automatically when `Content-Type: application/json` is set). Updated script already reflects this fix (see plan above -- `parameters: folderBody` not `parameters: folderBody.toJSONString()`).
+- **How the Add Custom Function save works:** the outer Save button sends the full Deluge script (including auto-generated function signature) to `createCustomFunction.zp` as a POST. The server validates referenced OAuth connections by name at save time. The dialog stays open (with no visible error) when the response contains `{"failure":"..."}` -- the failure reason is only visible by intercepting the XHR response, not from the UI.
+- **Next step to unlock the real script:** complete the `sharepointfileaccess` pre-conditions (see ASSET:zoho 2026-09-21 -- Step 1 and Step 2), then open this function for editing and save the full script.
+- **Remaining pre-conditions before the function is live:**
+  1. Register Azure AD app `ZohoPeople-SharePoint` in Azure Portal (Sites.ReadWrite.All permission) -- admin action, outside Zoho.
+  2. Create `sharepointfileaccess` Zoho OAuth connection -- Settings > Developer Space > Connections > New Connection > Custom OAuth / Microsoft (clientId + secret + tenantId from Step 1).
+  3. Confirm SharePoint Site ID and Drive ID (one-off Graph API lookup) -- hardcode into function constants.
+  4. Open `saveFilesToSharePoint` for editing and paste the full Deluge script (see plan above).
+  5. Create Workflow `Save Candidate Files to SharePoint` -- Trigger: New record added on Onboarding Staff; Execute only once; Action: `saveFilesToSharePoint` with candidateId → Candidate.

@@ -97,3 +97,24 @@
 **Workaround found:** the tooltip text lives in the icon element's `title` attribute (`<i id="bp_info" class="PI_alert ...">`), but is only populated after a genuine, real (not synthetic/programmatic) click on that specific icon -- and even then can lag behind a live page. A full hard page reload (F5) followed by a fresh real click reliably worked when repeated in-page clicks did not. A separate "ⓘ" icon elsewhere in the row opens an unrelated "Execution details" / "Info messages" popup, which is not the same as the Reason tooltip and was frequently empty (`No info message available to display`).
 
 **Also unreliable in the same UI:** the Custom Button's own confirm dialog ("A custom action to be trigger... click Confirm") only reliably appears on the very first click after a fresh page load -- repeated clicks against an already-settled page silently do nothing (no dialog, no new log entry, no error). Triggering the button via `document.querySelector(...).click()` in the browser console/devtools is more reliable than a coordinate-based UI click for automation purposes.
+
+## ISSUE:zoho 2026-09-23 -> Zoho People -- Custom Function save silently fails when a referenced OAuth connection does not exist
+
+**Symptom:** clicking Save on the Add/Edit Custom Function dialog (outer Save button, not the in-editor "Save & Execute Script") produces no visible error and no success toast -- the dialog stays open indefinitely. The server does receive the POST to `createCustomFunction.zp` and returns HTTP 200, but the response body is `{"failure":"Connection '<name>' does not exist"}`. Nothing in the UI surfaces this reason.
+
+**Cause:** Zoho People validates all OAuth connection references by name (e.g. `connection: "sharepointfileaccess"` inside an `invokeurl` block) at save time. If any named connection does not exist in Settings > Developer Space > Connections, the save is rejected server-side even though the HTTP status is 200.
+
+**How to diagnose:** intercept the XHR response in the browser console:
+```js
+const orig = XMLHttpRequest.prototype.open;
+XMLHttpRequest.prototype.open = function(m, url) { this._u = url; return orig.apply(this, arguments); };
+XMLHttpRequest.prototype.send = function(b) {
+  if (this._u?.includes('createCustomFunction')) this.addEventListener('load', () => console.log(this.responseText));
+  return XMLHttpRequest.prototype.send.call(this, b);  // won't work as recursive; use a stored orig
+}
+```
+Or use browser DevTools > Network tab > filter for `createCustomFunction` > Response body.
+
+**Resolution:** create all referenced OAuth connections in Settings > Developer Space > Connections before saving the function. The `sharepointfileaccess` connection required for `saveFilesToSharePoint` must be created first (see ASSET:zoho 2026-09-21 pre-conditions Step 2). Once the connection exists, open the function for editing and save the full script -- it will succeed immediately.
+
+**Note:** `peoplefileaccess` already exists and does not block saves. Only `sharepointfileaccess` (the new Microsoft Graph connection) is the outstanding blocker as of 2026-09-23.
