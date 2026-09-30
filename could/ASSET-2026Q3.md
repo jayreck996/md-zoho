@@ -290,3 +290,14 @@
 - **Re-test confirmed:** ync5389 did a portal save-draft → three workflow log entries fired at 05:51, 05:55, 05:56, all Successful. Email received at jayreck996@gmail.com. Recipient then restored to `servicedesk@transputec.com` and execution option restored to `Execute only once`.
 - **Live production state as of 2026-09-30:** trigger = `Record is created or edited`, execution = `Execute only once`, recipient = `servicedesk@transputec.com`.
 - **Cleanup:** CND228 (ync5389@gmail.com) deleted. CND216 (jay.reck@icloud.com) was already absent from the candidate list (no action needed). Candidate list is now empty / clean.
+
+## ASSET:zoho 2026-10-01 -> Zoho People -- Missing candidate records CND146–CND215 (~70 records)
+
+- **Discovery:** Track Onboarding "All" list shows 76 surviving candidates (highest CND145). Test accounts created during previous sessions started at CND216. This leaves a gap of CND146–CND215 (~70 candidate numbers) with no records.
+- **Confirmed not caused by our testing:** our test deletions were CND219, CND227, CND228 (our own test accounts). CND216 was already absent before this session. The CND146–215 gap predates all our test activity entirely.
+- **CND records survive conversion:** Zoho People does not delete candidate records when a candidate is converted to employee — they persist in Track Onboarding with "Completed" status indefinitely. This confirms the missing CND146–215 records were genuinely deleted outright, not converted.
+- **No audit trail:** Zoho People UI exposes no deletion log for candidate records. Workflow & Custom Button Logs only capture workflow executions (oldest entry: 08-09-2026). Reports search for "audit" returns no results. The deletion source, actor, and date are unrecoverable from within the system.
+- **Employee records intact:** Employee View export (Employee View (1).csv) shows 349 total records — 159 Active, 105 Resigned, 83 Terminated, 2 Inactive. Active + Inactive = 161, matching Settings page "User License Usage: 159/163". No employees are missing.
+- **Candidate-to-employee transition is manual:** conversion requires HR to manually click "Convert to Employee" on the candidate record. "Onboarding Status: Completed" does not auto-convert. Optional auto-trigger for employee onboarding flow exists (Settings → Onboarding → Flow → Preferences) but fires on Date of Joining, not on form completion.
+- **Draft email sent to Roann Etan (roann.etan@transputec.com)** 2026-10-01 flagging the gap and requesting confirmation of whether it was intentional cleanup. Also noted absence of audit trail and suggested raising Zoho Support ticket if cause is unknown.
+- **Pending candidates still open (not in gap):** CND71 (Andy Vaughan, andyv10@hotmail.com) and CND54 (Kritika Sinha, ksinh2003@yahoo.com) show "Triggered (yet to accept invite)" — both are current active employees who appear not to have completed the candidate portal.
