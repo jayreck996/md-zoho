@@ -246,10 +246,24 @@
   3. Confirm SharePoint Site ID and Drive ID (one-off Graph API lookup) -- hardcode into function constants.
   4. Open `saveFilesToSharePoint` for editing and paste the full Deluge script (see plan above).
 
-## ASSET:zoho 2026-09-23 -> Azure AD app registration -- request sent to 3rd line support
+## ASSET:zoho 2026-09-23 -> Azure AD app registration -- request sent to 3rd line support (REQ0042511)
 
-- **Request sent 2026-09-23** to 3rd line support / M365 admin asking them to register an Azure AD app (`ZohoPeople-SharePoint`) with `Files.ReadWrite.All` delegated permission, redirect URI `https://deluge.zoho.eu/delugeauth/callback`, and to share back Tenant ID + Client ID + Client Secret.
-- **Full request detail:** see REQUEST:zoho 2026-09-23 -> Azure AD -- App registration required for Zoho People SharePoint integration (REQUEST-2026Q3.md).
-- **Unblocks:** `sharepointfileaccess` Zoho connection creation, which in turn unblocks saving the full Deluge script to `saveFilesToSharePoint` (ID: `5489000006525005`) and enabling the `Save Candidate Files to SharePoint` workflow.
-- **Status:** pending -- awaiting credentials from 3rd line support.
-  5. Create Workflow `Save Candidate Files to SharePoint` -- Trigger: New record added on Onboarding Staff; Execute only once; Action: `saveFilesToSharePoint` with candidateId → Candidate.
+- **Request sent 2026-09-23** to 3rd line support / M365 admin (REQ0042511) asking them to register an Azure AD app (`ZohoPeople-SharePoint`) with `Files.ReadWrite.All` delegated permission, redirect URI `https://deluge.zoho.eu/delugeauth/callback`, and share back Tenant ID + Client ID + Client Secret.
+- **What was requested of 3rd line:**
+  1. Register new App Registration in Azure AD -- name: `ZohoPeople-SharePoint`, single-tenant
+  2. Add Redirect URI (Web): `https://deluge.zoho.eu/delugeauth/callback`
+  3. API Permissions: Microsoft Graph > Delegated > `Files.ReadWrite.All`, grant admin consent
+  4. Create Client Secret (24 months or per org policy), copy value immediately (shown once)
+  5. Share back: Tenant ID, Client ID, Client Secret value
+- **Unblocks:** `sharepointfileaccess` Zoho connection creation → saving full Deluge script to `saveFilesToSharePoint` (ID: `5489000006525005`) → enabling `Save Candidate Files to SharePoint` workflow.
+
+- **Update 2026-09-30 -- REQ0042511 journal reply from Mohammad (3rd line / M365 admin):**
+  - Three questions before proceeding:
+    1. **Which SharePoint site?** He can see "HR" and "HR Recruitment" -- wants to scope the app to just one site using `Sites.Selected` rather than `Files.ReadWrite.All`. Asks whether Zoho's connection supports `Sites.Selected` as the OAuth scope.
+    2. **Which account for the Zoho-side OAuth connection?** Recommends a dedicated service account so the connection survives staff changes.
+    3. **Secret delivery:** will share via Zoho Vault, 12 months with renewal reminder -- no action needed on our side.
+  - **Technical notes for reply:**
+    - `Sites.Selected` is supported from Zoho's side -- the Scope field in Zoho's custom OAuth connection is free-text; swap `https://graph.microsoft.com/Files.ReadWrite.All offline_access` for `https://graph.microsoft.com/Sites.Selected offline_access`. However, `Sites.Selected` requires an additional Azure step: after app registration Mohammad must also grant the app access to the specific site via Graph API (`POST /sites/{site-id}/permissions`, roles: `write`).
+    - Planned folder path is `/HR/Onboarding/...` -- **HR site** is the correct target; confirm before replying.
+    - Service account: the account used to authorise the Zoho OAuth connection is the one whose delegated SharePoint permissions back every file write -- needs to be an account that won't be deprovisioned.
+  - **Status:** pending -- awaiting site choice + service account decision before replying to REQ0042511.
