@@ -269,3 +269,14 @@
     - `hr@transputec.com` is a shared mailbox (multiple HR members including jay.reck@transputec.com access it via delegation, not direct login) -- shared mailboxes cannot authenticate interactively, so cannot be used for OAuth. A dedicated service account is required; deferred to Mohammad to advise or create one.
     - Site ID: no need to provide -- Mohammad has access to both SharePoint sites and can look it up himself.
   - **Status:** pending -- reply drafted 2026-09-30, awaiting send. Key asks: confirm HR site + `/HR/Onboarding/` path; note Sites.Selected extra step (Mohammad grants app access to site after registration); advise on service account since hr@transputec.com is a shared mailbox.
+
+## ASSET:zoho 2026-09-30 -> Zoho People -- end-to-end onboarding flow verified (Welcome Email + Notify IT)
+
+- **Test setup:** temporarily swapped Notify IT email alert recipient from `servicedesk@transputec.com` to `jayreck996@gmail.com` to verify the full flow without impacting the real service desk. CND219 (Jay Reck, ync5389@gmail.com) was deleted (had status "3/3 In progress", "Execute only once" meant it could not be re-triggered anyway).
+- **Fresh candidate CND227** created via Track Onboarding > Invite Candidate: Jay Reck, ync5389@gmail.com -- Trigger Onboarding: Yes, Initiate associated workflows: Yes. Status immediately set to "Triggered (yet to accept invite)".
+- **Confirmed working end-to-end:**
+  - Welcome Email landed at ync5389@gmail.com (portal invite, correct subject/body/links)
+  - Notify IT email landed at jayreck996@gmail.com (candidate name + device name, correct subject/body) -- fired automatically without using the TEST button, triggered by the candidate filling in the Machine/Device Name field on the Onboarding Staff form
+- **Draft-save vs. submit behaviour clarified:** the "Notify IT" workflow triggers on `Existing record is edited` + `Execute only once` -- it fires on any save (including draft save) as soon as the Machine/Device Name is non-empty, not only on final form submission. This is intentional (IT needs to know as early as possible) and the "Execute only once" guard prevents double-firing on subsequent saves. By contrast, `saveFilesToSharePoint` (when built) will trigger on `New record is added` (i.e., form submit), so it captures the final complete record.
+- **Recipient restored:** after testing, "Notify IT - Device Details Submitted" email alert recipient changed back to `servicedesk@transputec.com`. Workflow saved successfully ("Workflow updated successfully"). Live production state as of 2026-09-30: Notify IT workflow enabled, recipient servicedesk@transputec.com.
+- **Test records remaining:** CND216 (jay.reck@icloud.com, Not Triggered) and CND227 (ync5389@gmail.com, Triggered) are test records in the live candidate list -- can be cleaned up when no longer needed.
