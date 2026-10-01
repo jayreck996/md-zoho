@@ -118,3 +118,13 @@ Or use browser DevTools > Network tab > filter for `createCustomFunction` > Resp
 **Resolution:** create all referenced OAuth connections in Settings > Developer Space > Connections before saving the function. The `sharepointfileaccess` connection required for `saveFilesToSharePoint` must be created first (see ASSET:zoho 2026-09-21 pre-conditions Step 2). Once the connection exists, open the function for editing and save the full script -- it will succeed immediately.
 
 **Note:** `peoplefileaccess` already exists and does not block saves. Only `sharepointfileaccess` (the new Microsoft Graph connection) is the outstanding blocker as of 2026-09-23.
+
+## ISSUE:zoho 2026-10-02 -> Zoho People -- Recycle Bin does not include Candidate (Track Onboarding) records
+
+**Finding:** the Candidate form (Track Onboarding / CND records) does not appear in the Recycle Bin form selector (Operations > Data Administration > Recycle Bin). Only three forms are listed: Employee, Exit Details, Onboarding Staff. Both Employee and Onboarding Staff bins are empty.
+
+**Cause:** Candidate is a system-level module, not a custom form -- Zoho does not route its deletions through the standard Recycle Bin.
+
+**Impact:** the ~70 missing CND146–215 records (see ASSET:zoho 2026-10-01 -> Zoho People -- Missing candidate records CND146–CND215) are not recoverable via the Recycle Bin. Supersedes the "Next action" in ASSET:zoho 2026-10-02 -> Zoho People -- Recycle Bin: deleted candidate records may be recoverable -- that recovery path is closed.
+
+**Resolution (pending):** the Zoho Support ticket (ASSET:zoho 2026-10-01 -- Zoho Support ticket raised for missing CND146–215 records) remains the only recovery path. Zoho's backend team may have audit logs or a server-side restore option not exposed in the UI.
