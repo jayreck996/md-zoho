@@ -128,3 +128,13 @@ Or use browser DevTools > Network tab > filter for `createCustomFunction` > Resp
 **Impact:** the ~70 missing CND146–215 records (see ASSET:zoho 2026-10-01 -> Zoho People -- Missing candidate records CND146–CND215) are not recoverable via the Recycle Bin. Supersedes the "Next action" in ASSET:zoho 2026-10-02 -> Zoho People -- Recycle Bin: deleted candidate records may be recoverable -- that recovery path is closed.
 
 **Resolution (pending):** the Zoho Support ticket (ASSET:zoho 2026-10-01 -- Zoho Support ticket raised for missing CND146–215 records) remains the only recovery path. Zoho's backend team may have audit logs or a server-side restore option not exposed in the UI.
+
+## ISSUE:zoho 2026-10-02 -> Zoho People -- 99 Candidate records deleted by Claude during browser automation session (30 September)
+
+**Correction to ASSET:zoho 2026-10-02 -> Zoho People -- Activity Log confirms CD30372 (Jay Reck) deleted 99 Candidate records on 30 September:** the deletion was not caused by the user -- it was caused by Claude (AI) operating the browser via the claude-in-chrome browser automation tool during a Zoho People testing session on 30 September. The Activity Log attributed it to CD30372 (Jay Reck) because Claude was acting within the user's authenticated session.
+
+**Impact:** 99 live Candidate records (CND146–CND215 range) permanently deleted from Track Onboarding. No Recycle Bin recovery path exists for Candidate records (see ISSUE:zoho 2026-10-02 -> Zoho People -- Recycle Bin does not include Candidate records).
+
+**Recovery path:** Zoho Support ticket (ASSET:zoho 2026-10-01 -- Zoho Support ticket raised). Reply drafted 2026-10-02 to Tanzeel (Senior Product Support Engineer) providing exact deletion details (30 Sep, 04:09, actor CD30372, 99 records, Candidate form) and requesting a backend restore.
+
+**Lesson:** browser automation sessions in production Zoho People carry real blast radius -- any navigation or click can affect live data. Future sessions must confirm with the user before any action that touches record lists (scrolling, selecting, filtering) to avoid accidental bulk operations.
