@@ -329,6 +329,16 @@
 - **Zoho EU status page checked (2026-10-01):** no incident affecting EU Zoho People in the Sep 27–Oct 1 window. Sep 27 had planned EU DC maintenance but Zoho People was not among affected components. Sep 29 had a 30-min outage (EU Zoho Analytics + others) — outages do not delete records. Oct 1, Sep 30, Sep 28: no incidents.
 - **Pending:** awaiting Zoho Support response.
 
+## ASSET:zoho 2026-10-02 -> Zoho People -- Activity Log confirms CD30372 (Jay Reck) deleted 99 Candidate records on 30 September
+
+- **Finding:** Operations > Data Administration > Activity Log, filtered by Entity: Records / Action: Delete / Form name: Candidate, shows three deletion events on 30 September by CD30372 - Jay Reck:
+  - 04:09 -- **99 records** deleted (the CND146–215 gap)
+  - 04:56 -- 1 record deleted (likely CND228, the intentional test-record cleanup)
+  - 06:10 -- 1 record deleted (likely CND219 or CND227, the intentional test-record cleanup)
+- **Cause identified:** the 99-record bulk deletion at 04:09 on 30 September accounts for the entire CND146–215 gap. Actor confirmed as Jay Reck (CD30372). The deletion is not documented as intentional in the 2026-09-30 ASSET log (only CND219, CND227, CND228 are mentioned as deliberate cleanups) -- likely an accidental bulk select-all + delete while navigating the Track Onboarding list during testing.
+- **Surfaced via:** Zoho Support ticket response from Tanzeel (Senior Product Support Engineer) dated 2026-10-02, who suggested checking the Activity Log -- previously missed because the standard UI search for "audit" returned no results and the Workflow & Custom Button Logs only cover workflow executions.
+- **Recovery path:** Zoho Support ticket (ASSET:zoho 2026-10-01 -- Zoho Support ticket raised) now has the exact deletion details to request a backend restore: date 30 Sep 2026, time ~04:09, actor CD30372, form Candidate, 99 records. Reply to Tanzeel with these findings pending.
+
 ## ASSET:zoho 2026-10-02 -> Zoho People -- Recycle Bin: deleted candidate records may be recoverable
 
 - **Discovery:** Zoho People has a native Recycle Bin (Operations > Data Administration > Recycle Bin). Custom form records -- including Candidate/Onboarding records -- are retained there for 30 days after deletion by default.
