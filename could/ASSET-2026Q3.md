@@ -328,3 +328,12 @@
 - **Requests made:** (1) check whether records still exist and can be restored/recovered; (2) advise if Zoho backend audit logs show what action caused the deletion and when.
 - **Zoho EU status page checked (2026-10-01):** no incident affecting EU Zoho People in the Sep 27–Oct 1 window. Sep 27 had planned EU DC maintenance but Zoho People was not among affected components. Sep 29 had a 30-min outage (EU Zoho Analytics + others) — outages do not delete records. Oct 1, Sep 30, Sep 28: no incidents.
 - **Pending:** awaiting Zoho Support response.
+
+## ASSET:zoho 2026-10-02 -> Zoho People -- Recycle Bin: deleted candidate records may be recoverable
+
+- **Discovery:** Zoho People has a native Recycle Bin (Operations > Data Administration > Recycle Bin). Custom form records -- including Candidate/Onboarding records -- are retained there for 30 days after deletion by default.
+- **Relevance:** the missing CND146–CND215 records (see ASSET:zoho 2026-10-01 -> Zoho People -- Missing candidate records CND146–CND215) were identified 2026-10-01; if deleted within the previous 30 days, they may still be recoverable from the bin before the window closes.
+- **How to restore:** Operations > Data Administration > Recycle Bin > select the Candidate/Onboarding form > check the desired records > click Restore (confirm twice). Records appear in the bin approximately 30 seconds after deletion.
+- **Retention:** 30 days default; configurable via Settings > Manage Accounts > Organization Setup > Organization Policy > Recycle Bin Preference.
+- **Limitation:** records from core system forms (leave, attendance, performance) cannot be restored -- Candidate/Onboarding custom form records are restorable.
+- **Next action:** check the Recycle Bin immediately. If CND146–215 are present, restore them and close the Zoho Support ticket (ASSET:zoho 2026-10-01 -- Zoho Support ticket raised).
