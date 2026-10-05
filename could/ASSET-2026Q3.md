@@ -309,6 +309,7 @@
 - **Checked inside an employee record (CD30249 Bernadeth Mirto, "Completed"):** Employee record sections are Basic Info, Work, Personal, Summary, Work Experience, Education, Dependent, Related Forms (Company Policy, Exit Details only). No Onboarding Staff form section or document fields anywhere. Her Address field reads "Metro Manila, National Capital Region, Philippines (need full address)" — a placeholder, not a complete submission.
 - **Conclusion:** No employee has submitted the Onboarding Staff document form (Police Clearance, Proof of Identity, Utility Bills, Speedtest screenshot, etc.) via the portal. Zero records exist for this form. The "Completed" Employee Onboarding status indicates HR closed out their internal profile checklist, not that documentation was collected.
 - **Related gap (Employee View CSV):** 27 active members joined after the Zoho deployment date (earliest triggered/completed join date: 29-03-2021) but were never triggered for Employee Onboarding at all. Combined with 40 triggered-but-incomplete = 67 employees who should have onboarding records but don't.
+- **CORRECTION (2026-10-05):** the "No records found" finding was incorrect — see ASSET:zoho 2026-10-05 -> Zoho People -- Onboarding Staff form submissions found in completed candidate records. The zero-records result was likely caused by a filter or view access issue when navigating via Operations → Onboarding → Onboarding Staff directly. Completed candidate records accessed via Operations → Onboarding → Track Onboarding → All do show linked Onboarding Staff form submissions with actual files.
 
 ## ASSET:zoho 2026-10-01 -> Zoho People -- saveFilesToSharePoint ruled out as cause of CND gap
 
@@ -348,28 +349,44 @@
 - **Limitation:** records from core system forms (leave, attendance, performance) cannot be restored -- Candidate/Onboarding custom form records are restorable.
 - **Next action:** check the Recycle Bin immediately. If CND146–215 are present, restore them and close the Zoho Support ticket (ASSET:zoho 2026-10-01 -- Zoho Support ticket raised).
 
-## ASSET:zoho 2026-10-05 -> Zoho People -- Candidate Onboarding form field inventory (file upload fields confirmed)
+## ASSET:zoho 2026-10-05 -> Zoho People -- Candidate Onboarding form field inventory (complete, corrected)
 
-- **Purpose:** audited all file upload fields across the Candidate Onboarding flow to assess what data was lost with the 99 deleted CND records (CND146–215).
-- **Source:** Settings > Onboarding > Candidate Onboarding > Flow > Preview Onboarding Flow, stepped through "Your Details" and "Onboarding Forms" sections.
+- **Purpose:** full audit of all fields across the Candidate Onboarding flow. Previous version of this entry was incomplete and contained an incorrect file loss assessment (corrected below).
+- **Source:** Settings > Onboarding > Candidate Onboarding > Flow > Preview Onboarding Flow + live record inspection of CND132 (Khushboo Masih, Completed) via Operations → Onboarding → Track Onboarding → All.
 
 **Your Details (Profile) — stored directly on the CND candidate record:**
 - First Name, Last Name, Mobile, Email ID, Company Email (text fields)
-- **Photo** — file upload (JPG, PNG, GIF, JPEG; max 5 MB) — stored on the CND record
+- **Photo** — file upload (JPG, PNG, GIF, JPEG; max 5 MB)
 - Street Address, City, State/Province, Country (address fields)
 - Source of hire, Department, Tentative Joining Date, Location, Title (professional fields)
-- **Offer Letter** — file upload (any format; max 5 MB) — stored on the CND record
+- **Offer Letter** — file upload (any format; max 5 MB)
 
-**Onboarding Staff form (separate form submission, "Onboarding Forms" step):**
-- Candidate (lookup), Home Address, Personal Email Address, Job Role Offered, Reference 1 Email, Reference 2 Email (text fields)
+**Onboarding Staff form — separate linked form submission (accessed via candidate record → "Onboarding Staff" link):**
+- Candidate (lookup to CND record), Home Address, Personal Email Address, Job Role Offered, Reference 1 Email, Reference 2 Email (text/textarea fields)
+- Next of Kin Name & Contact Number (text field)
+- Machine/Device Name — If applicable write Company Issued Laptop (text field)
 - **Proof of Identity / Identification Card** — file upload (max 5 MB, required)
 - **1st Utility Bill (address included)** — file upload (max 5 MB, required)
 - **2nd Utility Bill (address included)** — file upload (max 5 MB, required)
+- **P45/HMRC Checklist (UK Staff Only)** — file upload
+- **CV** — file upload
 - **Police Clearance Certificate (PCC — Remote Workers Only)** — file upload (max 5 MB)
 - **Screenshot from https://www.speedtest.net** — file upload (max 5 MB, required)
 - **Personnel Questionnaire** — file upload (max 5 MB, required)
+- **Data Protection Act Form** — file upload
+- **Referencing Consent Form** — file upload
+- **Upload Screenshot of Machine/Device Name** — file upload
 
-**File loss assessment for the 99 deleted CND146–215 records:**
-- Onboarding Staff form documents (Proof of Identity, Utility Bills, Police Clearance, Speedtest screenshot, Personnel Questionnaire): **no loss** — Onboarding Staff form has 0 submissions total; none of the deleted candidates could have submitted it.
-- Photo and Offer Letter on the CND record: **unknown** — these are stored directly on the candidate record and would be deleted with it. Whether any of the 99 candidates had accepted their invite and uploaded these files depends on their onboarding status at the time of deletion, which is not recoverable from within Zoho People.
-- **Recommendation:** include in the Zoho Support ticket reply to Tanzeel — ask whether a backend restore of the 99 records would also recover any attached Photo/Offer Letter files.
+**How the two records relate:** from Track Onboarding the candidate entry is the parent; the Onboarding Staff form record is a child linked via the Candidate lookup. Both are visible together under the candidate's "Profile and Other Forms" view. From the user's perspective the candidate record contains all documents.
+
+**File loss assessment for the 99 deleted CND146–215 records (corrected 2026-10-05):**
+- Photo and Offer Letter on the CND profile: lost if those candidates had completed their profile before deletion.
+- Onboarding Staff form documents (ID, Utility Bills, Speedtest, Personnel Questionnaire, Data Protection Act Form, etc.): **potentially lost** — Onboarding Staff form submissions DO exist for completed candidates (see ASSET:zoho 2026-10-05 -> Zoho People -- Onboarding Staff submissions found). Whether those linked records were cascade-deleted when the 99 CND records were deleted is unknown. If cascade-deleted, identity documents and compliance files for any of those 99 candidates who had submitted the form are permanently gone.
+- **Recommendation:** the Zoho Support ticket reply to Tanzeel should explicitly ask (1) whether a backend restore recovers the CND records and all linked Onboarding Staff form records including file attachments, and (2) whether the Onboarding Staff records for CND146–215 still exist as orphaned records if not cascade-deleted.
+
+## ASSET:zoho 2026-10-05 -> Zoho People -- Onboarding Staff submissions found in completed candidate records
+
+- **Finding:** Onboarding Staff form submissions DO exist. CND132 (Khushboo Masih, khushboomasih193@gmail.com) has a completed submission with the following files attached: Passport (1).pdf (Proof of Identity), 1.odt (1st Utility Bill), 2.odt (2nd Utility Bill), speedtest.png (Speedtest screenshot), PERSONNEL QUESTIONNAIRE (1)(1).pdf, DATA PROTECTION ACT FORM (1).doc.
+- **How found:** Operations → Onboarding → Track Onboarding → All → clicked Khushboo Masih's entry → "Profile and Other Forms" panel → clicked "Onboarding Staff" link. Form record ID: 5489000003676049, added 29-07-2024, modified by EMP798 Roann Etan 29-07-2024.
+- **Correction to:** ASSET:zoho 2026-10-01 -> Zoho People -- Onboarding Staff form submissions: zero records found. That entry was wrong — the zero-records result was likely due to a filtered view when navigating directly via Operations → Onboarding → Onboarding Staff. The form has active submissions accessible via the candidate record route.
+- **Implication for the 99 deleted records:** any of the 99 candidates (CND146–215) who had reached "Completed" status and submitted the Onboarding Staff form would have had identity documents, utility bills, and compliance files attached. Whether those Onboarding Staff form records were cascade-deleted with the CND records is the critical unknown — see corrected loss assessment in ASSET:zoho 2026-10-05 -> Candidate Onboarding form field inventory.

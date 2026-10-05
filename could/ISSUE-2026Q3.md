@@ -138,3 +138,13 @@ Or use browser DevTools > Network tab > filter for `createCustomFunction` > Resp
 **Recovery path:** Zoho Support ticket (ASSET:zoho 2026-10-01 -- Zoho Support ticket raised). Reply drafted 2026-10-02 to Tanzeel (Senior Product Support Engineer) providing exact deletion details (30 Sep, 04:09, actor CD30372, 99 records, Candidate form) and requesting a backend restore.
 
 **Lesson:** browser automation sessions in production Zoho People carry real blast radius -- any navigation or click can affect live data. Future sessions must confirm with the user before any action that touches record lists (scrolling, selecting, filtering) to avoid accidental bulk operations.
+
+## ISSUE:zoho 2026-10-05 -> Zoho People -- "Onboarding Staff: zero submissions" finding was incorrect
+
+**Correction to ASSET:zoho 2026-10-01 -> Zoho People -- Onboarding Staff form submissions: zero records found.**
+
+**What was wrong:** the zero-records finding was produced by navigating directly via Operations → Onboarding → Onboarding Staff (filtered view, likely scoped to a specific portal or status). Completed candidates accessed via Operations → Onboarding → Track Onboarding → All → candidate entry → "Onboarding Staff" DO show linked submissions with actual files.
+
+**Confirmed:** CND132 (Khushboo Masih) has a completed Onboarding Staff submission dated 29-07-2024 with Passport.pdf, utility bills, speedtest.png, Personnel Questionnaire.pdf, and Data Protection Act Form.doc attached.
+
+**Impact on data loss assessment:** the previous conclusion that "no documents are stored / no loss from the 99 deletions" is no longer valid. Any of the 99 deleted candidates (CND146–215) who had reached Completed status and submitted the Onboarding Staff form would have had identity documents and compliance files on their linked form record. Whether those records were cascade-deleted with the CND records is unknown — see ASSET:zoho 2026-10-05 -> Candidate Onboarding form field inventory (corrected) for full assessment.
