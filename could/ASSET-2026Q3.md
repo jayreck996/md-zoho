@@ -347,3 +347,29 @@
 - **Retention:** 30 days default; configurable via Settings > Manage Accounts > Organization Setup > Organization Policy > Recycle Bin Preference.
 - **Limitation:** records from core system forms (leave, attendance, performance) cannot be restored -- Candidate/Onboarding custom form records are restorable.
 - **Next action:** check the Recycle Bin immediately. If CND146–215 are present, restore them and close the Zoho Support ticket (ASSET:zoho 2026-10-01 -- Zoho Support ticket raised).
+
+## ASSET:zoho 2026-10-05 -> Zoho People -- Candidate Onboarding form field inventory (file upload fields confirmed)
+
+- **Purpose:** audited all file upload fields across the Candidate Onboarding flow to assess what data was lost with the 99 deleted CND records (CND146–215).
+- **Source:** Settings > Onboarding > Candidate Onboarding > Flow > Preview Onboarding Flow, stepped through "Your Details" and "Onboarding Forms" sections.
+
+**Your Details (Profile) — stored directly on the CND candidate record:**
+- First Name, Last Name, Mobile, Email ID, Company Email (text fields)
+- **Photo** — file upload (JPG, PNG, GIF, JPEG; max 5 MB) — stored on the CND record
+- Street Address, City, State/Province, Country (address fields)
+- Source of hire, Department, Tentative Joining Date, Location, Title (professional fields)
+- **Offer Letter** — file upload (any format; max 5 MB) — stored on the CND record
+
+**Onboarding Staff form (separate form submission, "Onboarding Forms" step):**
+- Candidate (lookup), Home Address, Personal Email Address, Job Role Offered, Reference 1 Email, Reference 2 Email (text fields)
+- **Proof of Identity / Identification Card** — file upload (max 5 MB, required)
+- **1st Utility Bill (address included)** — file upload (max 5 MB, required)
+- **2nd Utility Bill (address included)** — file upload (max 5 MB, required)
+- **Police Clearance Certificate (PCC — Remote Workers Only)** — file upload (max 5 MB)
+- **Screenshot from https://www.speedtest.net** — file upload (max 5 MB, required)
+- **Personnel Questionnaire** — file upload (max 5 MB, required)
+
+**File loss assessment for the 99 deleted CND146–215 records:**
+- Onboarding Staff form documents (Proof of Identity, Utility Bills, Police Clearance, Speedtest screenshot, Personnel Questionnaire): **no loss** — Onboarding Staff form has 0 submissions total; none of the deleted candidates could have submitted it.
+- Photo and Offer Letter on the CND record: **unknown** — these are stored directly on the candidate record and would be deleted with it. Whether any of the 99 candidates had accepted their invite and uploaded these files depends on their onboarding status at the time of deletion, which is not recoverable from within Zoho People.
+- **Recommendation:** include in the Zoho Support ticket reply to Tanzeel — ask whether a backend restore of the 99 records would also recover any attached Photo/Offer Letter files.
