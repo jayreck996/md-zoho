@@ -328,7 +328,8 @@
 - **Key points raised in ticket:** records were confirmed present earlier this week (around 27–29 Sep 2026); sequential gap from ~CND138 to CND216+; no automation or custom function in account performed delete actions; Workflow & Custom Button Logs show no relevant activity; Zoho People exposes no audit trail for manual UI deletions.
 - **Requests made:** (1) check whether records still exist and can be restored/recovered; (2) advise if Zoho backend audit logs show what action caused the deletion and when.
 - **Zoho EU status page checked (2026-10-01):** no incident affecting EU Zoho People in the Sep 27–Oct 1 window. Sep 27 had planned EU DC maintenance but Zoho People was not among affected components. Sep 29 had a 30-min outage (EU Zoho Analytics + others) — outages do not delete records. Oct 1, Sep 30, Sep 28: no incidents.
-- **Pending:** awaiting Zoho Support response.
+- **Update 2026-10-02:** Tanzeel (Senior Product Support Engineer) replied suggesting Activity Log check — led to confirming the deletion details (see ASSET:zoho 2026-10-02 -> Activity Log confirms CD30372 deleted 99 records).
+- **Update 2026-10-06:** Tanzeel confirmed the recovery request has been raised with their internal team. They are checking feasibility and will share an update. **Status: pending — awaiting feasibility response from Zoho backend team.**
 
 ## ASSET:zoho 2026-10-02 -> Zoho People -- Activity Log confirms CD30372 (Jay Reck) deleted 99 Candidate records on 30 September
 
