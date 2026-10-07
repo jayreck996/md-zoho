@@ -473,7 +473,7 @@ No fixed statutory period exists. Storage limitation principle (Article 5(1)(e))
 
 ## ASSET:zoho 2026-10-07 -> GDPR incident -- draft communications (requested by Roann Etan)
 
-Context: Roann Etan requested two outputs following the 30 Sep 2026 data loss incident — (1) a candidate re-upload email for Zainab to send, and (2) a GDPR incident summary for Jay to provide to Roann so she can log it as resolved. Instruction: avoid unnecessary concern for affected individuals; frame re-upload as routine. Numbers confirmed: 99 records deleted (Activity Log), 3 individuals with data permanently lost (CND209, CND214, CND215 — "Completed by candidate").
+Context: Roann Etan requested two outputs following the 30 Sep 2026 data loss incident — (1) a candidate re-upload email for Zainab to send, and (2) a GDPR incident summary for Jay to provide to Roann so she can log it as resolved. Instruction: avoid unnecessary concern for affected individuals; frame re-upload as routine. Numbers confirmed via full Track Onboarding All export (07 Oct 2026): 99 records deleted (Activity Log), **54 individuals with onboarding data permanently lost** (52 "Completed" + 3 "Completed by candidate", minus 1 test record CND201). Initial estimate of 3 was based on a filtered report that excluded already-converted employees.
 
 ---
 
@@ -516,21 +516,23 @@ Recipients: Mohammed Radman (mohammedradman11@gmail.com), Alfredo Jr Salipot (aj
 > On 30 September 2026 at approximately 04:09 CEST, 99 candidate records (CND146–CND215) were accidentally deleted from Zoho People Track Onboarding during a browser automation testing session under the authenticated account jay.reck@transputec.com (CD30372). This was confirmed via the Zoho People Activity Log.
 >
 > **Data Affected**
-> Of the 99 deleted records:
-> - 88 records: no substantive personal data held (candidates had not accepted their invite or had not submitted any documents)
-> - 8 records: "Triggered" status — candidates had accepted their portal invite but had not yet submitted any documents. No document data was lost.
-> - **3 records: "Completed by candidate" status** — these individuals had fully submitted their Onboarding Staff forms including identity and compliance documents. Their submitted files were permanently deleted and are unrecoverable.
+> Full analysis of the CND146–CND215 range (70 records) based on Track Onboarding All export (07 Oct 2026):
 >
-> | Candidate ID | Name | Email |
+> | Status | Count | Data impact |
 > |---|---|---|
-> | CND209 | Mohammed Radman | mohammedradman11@gmail.com |
-> | CND214 | Alfredo Jr Salipot | ajr.as@outlook.com |
-> | CND215 | Mahmoud Aly | mahmoudaly82016@outlook.com |
+> | Completed (converted to employee) | 52 | Onboarding Staff form submissions and all attached files permanently lost |
+> | Triggered (invite accepted, no submission) | 8 | No documents submitted — no data loss |
+> | Completed by candidate (portal submission) | 3 | Portal submissions and all attached files permanently lost |
+> | Not restored / missing | 7 | CND167, 168, 192–196 — records not recovered; data status unknown |
 >
-> Documents lost for these 3 individuals: Proof of Identity, 1st and 2nd Utility Bills, Speedtest screenshot, Personnel Questionnaire, Data Protection Act Form, Referencing Consent Form.
+> **Total individuals with onboarding data permanently lost: 54** (52 Completed + 3 Completed by candidate, excluding CND201 which is an internal test record).
+>
+> Documents lost per affected individual (where submitted): Proof of Identity, 1st and 2nd Utility Bills, Speedtest screenshot, Personnel Questionnaire, Data Protection Act Form, Referencing Consent Form, CV, Police Clearance Certificate (remote workers).
+>
+> **Note on initial estimate:** an earlier assessment identified only 3 affected individuals (CND209, CND214, CND215). This was based on a filtered Onboarding Status Report that excludes candidates already converted to employees. The full Track Onboarding All view confirms 54 individuals were affected.
 >
 > **Breach Assessment**
-> Minimal. No financial data, banking details, passwords, or sensitive special-category data was involved. The data lost comprised standard onboarding compliance documents. The candidate profile records themselves have been restored by Zoho. Only 3 individuals were materially affected.
+> Moderate. No financial data, banking details, passwords, or sensitive special-category data was involved. The data lost comprised standard onboarding compliance documents (identity verification, address proof, employment forms) for 54 individuals. Candidate profile records have been restored by Zoho; only the Onboarding Staff form submissions and attached files are unrecoverable. 7 records (CND167, 168, 192–196) were not restored at all.
 >
 > **Timeline of Actions**
 > - 30 Sep 2026 — Accidental deletion occurred (04:09 CEST)
@@ -538,7 +540,8 @@ Recipients: Mohammed Radman (mohammedradman11@gmail.com), Alfredo Jr Salipot (aj
 > - 02 Oct 2026 — Activity Log reviewed; deletion event confirmed (actor, timestamp, volume)
 > - 06 Oct 2026 — Zoho confirmed recovery request raised with backend team
 > - 07 Oct 2026 — Zoho restored 99 CND records; confirmed onboarding data permanently unrecoverable
-> - 07 Oct 2026 — Affected individuals (CND209, CND214, CND215) notified and asked to re-upload documents
+> - 07 Oct 2026 — Full scope confirmed: 54 individuals affected (revised up from initial estimate of 3)
+> - 07 Oct 2026 — Affected individuals being contacted to re-upload documents
 >
 > **Root Cause**
 > Accidental bulk deletion during a browser automation (Claude AI / claude-in-chrome) testing session. The agent was operating in the authenticated Zoho People session without per-action confirmation in place at the time.
