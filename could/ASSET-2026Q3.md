@@ -393,6 +393,35 @@
 - **Correction to:** ASSET:zoho 2026-10-01 -> Zoho People -- Onboarding Staff form submissions: zero records found. That entry was wrong — the zero-records result was likely due to a filtered view when navigating directly via Operations → Onboarding → Onboarding Staff. The form has active submissions accessible via the candidate record route.
 - **Implication for the 99 deleted records:** any of the 99 candidates (CND146–215) who had reached "Completed" status and submitted the Onboarding Staff form would have had identity documents, utility bills, and compliance files attached. Whether those Onboarding Staff form records were cascade-deleted with the CND records is the critical unknown — see corrected loss assessment in ASSET:zoho 2026-10-05 -> Candidate Onboarding form field inventory.
 
+## ASSET:zoho 2026-10-07 -> Zoho People -- Onboarding Status Report: restored records analysis (Onboarding Status Report (2).csv)
+
+- **Source:** Onboarding Status Report (2).csv export, 25 records.
+- **Context:** reviewed to assess which of the 99 deleted CND146–215 records were restored by Zoho and what their onboarding status was at time of deletion.
+
+**Restored records from the deleted CND146–215 range (11 of 99):**
+
+| Candidate ID | Name | Email | Status |
+|---|---|---|---|
+| CND146 | Roble Farah | roblefarah@hotmail.co.uk | Triggered |
+| CND147 | Yusra Albeiti | yalbeitii@gmail.com | Triggered |
+| CND148 | Ryuma Rocco | ryumarocco@hotmail.com | Triggered |
+| CND169 | Chanay Blomkamp | chanayjacobs@ymail.com | Triggered |
+| CND174 | Andy Joseph | josephandy581@gmail.com | Triggered |
+| CND188 | Giovani Bongiolo | giobongiolo@gmail.com | Triggered |
+| CND189 | Nico Goosen | dr.nicogoosen@outlook.com | Triggered |
+| CND199 | Zadel De Wit | zadeldewitt93@gmail.com | Triggered |
+| CND209 | Mohammed Radman | mohammedradman11@gmail.com | **Completed by candidate** |
+| CND214 | Alfredo Jr Salipot | ajr.as@outlook.com | **Completed by candidate** |
+| CND215 | Mahmoud Aly | mahmoudaly82016@outlook.com | **Completed by candidate** |
+
+**The remaining 88 of the 99 deleted records do not appear** — likely stub records never accepted by the candidate (no profile data to restore) or absent from this export's filter.
+
+**Critical — 3 candidates with "Completed by candidate" status (CND209, CND214, CND215):** these had fully completed the onboarding flow, meaning they submitted the Onboarding Staff form with all attached documents (Proof of Identity, Utility Bills, Speedtest screenshot, Personnel Questionnaire, Data Protection Act Form). Their profile records are restored but all submitted documents are permanently lost. These 3 candidates must be contacted to resubmit their full document set.
+
+**8 candidates with "Triggered" status:** accepted their invite and started the flow but had not submitted the Onboarding Staff form. Onboarding must be retriggered; no documents were lost for these candidates.
+
+**Other records in the CSV (not from the deleted range):** CND101, CND103, CND116 (pre-deletion survivors), CND218–CND230 (post-deletion new/test records), CND111, CND71, CND54 (pre-existing active candidates).
+
 ## ASSET:zoho 2026-10-07 -> Zoho People -- data recovery policy research: no client-facing policy for Candidate record deletion
 
 - **Purpose:** researched whether Zoho People has a published data recovery or retention policy for Candidate records and linked data, to support a formal policy request to Zoho.
