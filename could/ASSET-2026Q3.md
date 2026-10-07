@@ -444,3 +444,29 @@
 - **Recommendation:** convert to Employee status at the point of onboarding form submission (or offer acceptance), not at day-1 start. Zoho People supports pre-start employees — an Employee record can exist before the Date of Joining with a status that reflects "not yet started." This moves the record into the protected tier (Recycle Bin coverage) as soon as the compliance-critical documents are on file.
 - **How to apply:** raise with HR to define a policy for when conversion happens (e.g., "convert when Onboarding Staff form is submitted and Proof of Identity is received"). Could be supported by a Workflow that flags/notifies HR to convert when the Onboarding Staff record is created. Auto-conversion via Zoho Onboarding Flow Preferences exists but fires on Date of Joining, not on form completion — a manual or workflow-triggered conversion earlier in the cycle would close this gap.
 - **Why this was not raised before:** the Recycle Bin gap for Candidate records only became apparent after the 30 Sep 2026 deletion incident and the subsequent research into Zoho's recovery policy.
+
+## ASSET:zoho 2026-10-07 -> Compliance -- UK GDPR coverage of candidate data and retention policy
+
+### GDPR coverage
+
+Candidate data (Proof of Identity, utility bills, P45, address data) is personal data under UK GDPR (the post-Brexit retained equivalent of EU GDPR, applicable to Transputec as a UK company). Candidates are data subjects with full GDPR protections. Key articles:
+
+- **Article 5(1)(f) — Integrity and confidentiality:** personal data must be protected against accidental loss or destruction using appropriate technical measures. Having no Recycle Bin / recovery path for Candidate records is a gap against this principle.
+- **Article 32 — Security of processing:** controllers (Transputec) must implement measures to restore availability and access to personal data in the event of an incident. No self-service restore for Candidate records is a gap.
+- **Article 33 — Breach notification:** accidental permanent loss of identity documents for the 3 "Completed by candidate" records (CND209, CND214, CND215) may constitute a reportable personal data breach to the ICO — required within 72 hours of becoming aware, if likely to result in risk to individuals. **DPO/legal review recommended.**
+- **Article 28 — Processor obligations:** Zoho (as data processor) must assist the controller in ensuring compliance. Their undocumented gap in Candidate record recovery is arguably a gap in that obligation — strengthens the formal policy request to Zoho.
+
+### Candidate data retention periods (UK practice)
+
+No fixed statutory period exists. Storage limitation principle (Article 5(1)(e)) applies — keep only as long as necessary for the purpose.
+
+| Candidate status | Recommended retention |
+|---|---|
+| Rejected / unsuccessful applicant | 6 months after process ends (covers 3-month employment tribunal window under Equality Act 2010 + buffer) |
+| Accepted offer but did not start | 6–12 months after withdrawal / no-show |
+| Converted to employee | Data folds into employment record — 6 years after employment ends (HMRC/payroll obligations) |
+
+**Implication for Zoho People CND records:** candidates sitting in "Triggered" or "Completed" status indefinitely — with no conversion to Employee and no deletion schedule — are likely held beyond GDPR's storage limitation. A retention policy should define:
+1. When a candidate is considered terminated (offer withdrawn, no-show, failed checks)
+2. Retention window after termination (recommend 6 months)
+3. Scheduled deletion in Zoho People after that window expires
