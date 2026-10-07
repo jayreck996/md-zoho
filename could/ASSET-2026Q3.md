@@ -470,3 +470,82 @@ No fixed statutory period exists. Storage limitation principle (Article 5(1)(e))
 1. When a candidate is considered terminated (offer withdrawn, no-show, failed checks)
 2. Retention window after termination (recommend 6 months)
 3. Scheduled deletion in Zoho People after that window expires
+
+## ASSET:zoho 2026-10-07 -> GDPR incident -- draft communications (requested by Roann Etan)
+
+Context: Roann Etan requested two outputs following the 30 Sep 2026 data loss incident — (1) a candidate re-upload email for Zainab to send, and (2) a GDPR incident summary for Jay to provide to Roann so she can log it as resolved. Instruction: avoid unnecessary concern for affected individuals; frame re-upload as routine. Numbers confirmed: 99 records deleted (Activity Log), 3 individuals with data permanently lost (CND209, CND214, CND215 — "Completed by candidate").
+
+---
+
+### Draft 1 — Candidate re-upload email (for Zainab to send)
+
+Recipients: Mohammed Radman (mohammedradman11@gmail.com), Alfredo Jr Salipot (ajr.as@outlook.com), Mahmoud Aly (mahmoudaly82016@outlook.com)
+
+> **Subject:** Action Required: Please Re-upload Your Onboarding Documents
+>
+> Hi [First Name],
+>
+> I hope you're well. We're reaching out as part of a routine review of our onboarding records.
+>
+> We've identified that your onboarding documents are no longer showing on our system and we'd like to ask you to re-upload them at your earliest convenience. This won't take long and will ensure your file is complete with us.
+>
+> Please log back into the Transputec onboarding portal using your existing login and re-upload the following:
+> - Proof of Identity
+> - Utility Bills (x2)
+> - Speedtest screenshot
+> - Personnel Questionnaire
+> - Data Protection Act Form
+> - Referencing Consent Form
+>
+> If you have any difficulty accessing the portal or locating your documents, please reply to this email and we'll be happy to assist.
+>
+> Thank you for your patience and cooperation.
+>
+> Kind regards,
+> Zainab
+> HR, Transputec
+
+---
+
+### Draft 2 — GDPR incident summary (Jay to send to Roann)
+
+> **GDPR Incident Summary — Zoho People: Candidate Record Data Loss**
+> Prepared by: Jay Reck | Date: 07 October 2026
+>
+> **Incident Overview**
+> On 30 September 2026 at approximately 04:09 CEST, 99 candidate records (CND146–CND215) were accidentally deleted from Zoho People Track Onboarding during a browser automation testing session under the authenticated account jay.reck@transputec.com (CD30372). This was confirmed via the Zoho People Activity Log.
+>
+> **Data Affected**
+> Of the 99 deleted records:
+> - 88 records: no substantive personal data held (candidates had not accepted their invite or had not submitted any documents)
+> - 8 records: "Triggered" status — candidates had accepted their portal invite but had not yet submitted any documents. No document data was lost.
+> - **3 records: "Completed by candidate" status** — these individuals had fully submitted their Onboarding Staff forms including identity and compliance documents. Their submitted files were permanently deleted and are unrecoverable.
+>
+> | Candidate ID | Name | Email |
+> |---|---|---|
+> | CND209 | Mohammed Radman | mohammedradman11@gmail.com |
+> | CND214 | Alfredo Jr Salipot | ajr.as@outlook.com |
+> | CND215 | Mahmoud Aly | mahmoudaly82016@outlook.com |
+>
+> Documents lost for these 3 individuals: Proof of Identity, 1st and 2nd Utility Bills, Speedtest screenshot, Personnel Questionnaire, Data Protection Act Form, Referencing Consent Form.
+>
+> **Breach Assessment**
+> Minimal. No financial data, banking details, passwords, or sensitive special-category data was involved. The data lost comprised standard onboarding compliance documents. The candidate profile records themselves have been restored by Zoho. Only 3 individuals were materially affected.
+>
+> **Timeline of Actions**
+> - 30 Sep 2026 — Accidental deletion occurred (04:09 CEST)
+> - 01 Oct 2026 — Gap in CND records identified; Zoho Support ticket raised requesting recovery
+> - 02 Oct 2026 — Activity Log reviewed; deletion event confirmed (actor, timestamp, volume)
+> - 06 Oct 2026 — Zoho confirmed recovery request raised with backend team
+> - 07 Oct 2026 — Zoho restored 99 CND records; confirmed onboarding data permanently unrecoverable
+> - 07 Oct 2026 — Affected individuals (CND209, CND214, CND215) notified and asked to re-upload documents
+>
+> **Root Cause**
+> Accidental bulk deletion during a browser automation (Claude AI / claude-in-chrome) testing session. The agent was operating in the authenticated Zoho People session without per-action confirmation in place at the time.
+>
+> **Preventive Actions Taken**
+> 1. Browser automation policy updated: explicit per-action user confirmation now required before any write/modify/delete action in production systems.
+> 2. Process recommendation raised with HR: converting candidates to Employee records at point of onboarding form submission (Employee records have Recycle Bin coverage; Candidate records do not).
+> 3. Formal policy request to Zoho raised: requesting Recycle Bin coverage for Candidate records and linked data, consistent with UK GDPR Article 32 obligations.
+>
+> **Status: Resolved** — records restored, affected individuals contacted, preventive measures in place.
