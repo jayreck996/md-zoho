@@ -139,6 +139,8 @@ Or use browser DevTools > Network tab > filter for `createCustomFunction` > Resp
 
 **Lesson:** browser automation sessions in production Zoho People carry real blast radius -- any navigation or click can affect live data. Future sessions must confirm with the user before any action that touches record lists (scrolling, selecting, filtering) to avoid accidental bulk operations.
 
+**Resolution (2026-10-07):** Zoho Support (Tanzeel) restored the 99 Candidate records. However, all associated onboarding data — Onboarding Staff form submissions and all attached files (Proof of Identity, Utility Bills, Speedtest screenshots, Personnel Questionnaires, Data Protection Act Forms) — is permanently deleted and unrecoverable. Affected candidates must retrigger the full onboarding process from scratch. Deletion confirmed by Zoho backend logs as occurring on 30-09-2026 at 05:08:24 CEST from account jay.reck@transputec.com (Claude operating within the authenticated session).
+
 ## ISSUE:zoho 2026-10-05 -> Zoho People -- "Onboarding Staff: zero submissions" finding was incorrect
 
 **Correction to ASSET:zoho 2026-10-01 -> Zoho People -- Onboarding Staff form submissions: zero records found.**
