@@ -392,3 +392,17 @@
 - **How found:** Operations → Onboarding → Track Onboarding → All → clicked Khushboo Masih's entry → "Profile and Other Forms" panel → clicked "Onboarding Staff" link. Form record ID: 5489000003676049, added 29-07-2024, modified by EMP798 Roann Etan 29-07-2024.
 - **Correction to:** ASSET:zoho 2026-10-01 -> Zoho People -- Onboarding Staff form submissions: zero records found. That entry was wrong — the zero-records result was likely due to a filtered view when navigating directly via Operations → Onboarding → Onboarding Staff. The form has active submissions accessible via the candidate record route.
 - **Implication for the 99 deleted records:** any of the 99 candidates (CND146–215) who had reached "Completed" status and submitted the Onboarding Staff form would have had identity documents, utility bills, and compliance files attached. Whether those Onboarding Staff form records were cascade-deleted with the CND records is the critical unknown — see corrected loss assessment in ASSET:zoho 2026-10-05 -> Candidate Onboarding form field inventory.
+
+## ASSET:zoho 2026-10-07 -> Zoho People -- data recovery policy research: no client-facing policy for Candidate record deletion
+
+- **Purpose:** researched whether Zoho People has a published data recovery or retention policy for Candidate records and linked data, to support a formal policy request to Zoho.
+- **Sources checked:** Zoho People Help (help.zoho.com), Zoho Community forums.
+
+**Findings:**
+- **Official documentation (Candidate Onboarding Records help article)** states only: *"All data related to the selected candidates will be deleted from Zoho People."* No mention of recovery options, recycle bin support, retention window, or warning about linked records and attached files being destroyed.
+- **Recycle Bin coverage gap (confirmed in our own system):** Zoho People Recycle Bin (Operations → Data Administration → Recycle Bin) lists Employee, Exit Details, and Onboarding Staff forms — but NOT Candidate records. Candidate is a system-level module, not a custom form, so it bypasses the standard 30-day bin entirely.
+- **Employee records DO have recycle bin support** (30-day retention, restorable from UI). Candidate records do not — recovery requires a backend support ticket to Zoho, with no self-service path.
+- **Community precedent:** a separate Zoho user reported accidentally deleting 18 candidates and attempted recovery (help.zoho.com community) — no published resolution, suggesting this is a recurring known pain point with no consistent self-service fix.
+- **No published policy exists** for: (1) retention of deleted Candidate records, (2) recovery of linked form submissions when a parent Candidate record is deleted, or (3) preservation of file attachments on deleted records.
+
+**Conclusion:** Zoho People has an undocumented gap — Candidate records and their linked Onboarding Staff data (identity documents, compliance files) are permanently deleted with no UI recovery path and no client-facing policy. Zoho's backend team can restore records on a case-by-case basis (as confirmed in our incident) but this is not documented and not guaranteed. A formal request for Recycle Bin coverage of Candidate records and linked data is justified and supported by the documentation gap.
